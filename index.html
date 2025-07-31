@@ -1,804 +1,413 @@
-/* TNC (Tote&Carry) P&L Dashboard Styles */
-/* Repository: tnc-pnl-dashboard */
-/* Version 1.0 */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0a0a;
-    color: #fff;
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* Header Styles */
-.header {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
-    padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
-    border-bottom: 3px solid #FFD700;
-    position: relative;
-    overflow: hidden;
-}
-
-.header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(255, 215, 0, 0.03) 10px,
-        rgba(255, 215, 0, 0.03) 20px
-    );
-    pointer-events: none;
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    z-index: 1;
-    max-width: 1600px;
-    margin: 0 auto;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.logo {
-    width: 50px;
-    height: 50px;
-    background: #FFD700;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #000;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-    position: relative;
-    flex-shrink: 0;
-}
-
-.logo::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
-    z-index: -1;
-    animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-
-.brand-info h1 {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    margin-bottom: 0.25rem;
-    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.brand-info p {
-    color: #FFD700;
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    opacity: 0.9;
-    letter-spacing: 0.5px;
-}
-
-.header-right {
-    text-align: right;
-}
-
-.header-title {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: #fff;
-    margin-bottom: 0.25rem;
-}
-
-.header-subtitle {
-    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-    color: #FFD700;
-    opacity: 0.8;
-}
-
-.container {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: clamp(1rem, 3vw, 2rem);
-}
-
-/* Tab Navigation */
-.tab-navigation {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-}
-
-.tab-navigation::-webkit-scrollbar {
-    display: none;
-}
-
-.tab-button {
-    background: none;
-    border: none;
-    color: #9ca3af;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    font-weight: 500;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.tab-button:hover {
-    color: #e5e7eb;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.tab-button.active {
-    color: #fff;
-}
-
-.tab-button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #FFD700, #FFA500);
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-}
-
-.tab-content {
-    display: none;
-    animation: fadeIn 0.4s ease;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Critical Stats */
-.critical-stats {
-    background: rgba(255, 215, 0, 0.1);
-    border: 2px solid #FFD700;
-    border-radius: 12px;
-    padding: clamp(1rem, 3vw, 2rem);
-    margin-bottom: 2rem;
-    animation: pulse 3s infinite;
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
-    50% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-}
-
-.critical-stats h2 {
-    color: #FFD700;
-    margin-bottom: 1rem;
-    font-size: clamp(1.3rem, 3vw, 1.8rem);
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
-    gap: 1rem;
-}
-
-.stat-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: clamp(1rem, 2vw, 1.5rem);
-    border-radius: 8px;
-    border-left: 4px solid #FFA500;
-    transition: all 0.3s ease;
-}
-
-.stat-item:hover {
-    transform: translateX(5px);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
-}
-
-.stat-value {
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 0.3rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-.stat-label {
-    color: #e5e7eb;
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
-}
-
-/* Metrics Grid */
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    gap: clamp(1rem, 2vw, 1.5rem);
-    margin-bottom: 2rem;
-}
-
-.metric-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: clamp(1rem, 2vw, 1.5rem);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.metric-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.8s;
-}
-
-.metric-card:hover::before {
-    transform: translateX(100%);
-}
-
-.metric-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.metric-label {
-    color: #9ca3af;
-    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.metric-value {
-    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.metric-value.negative {
-    color: #ef4444;
-}
-
-.metric-value.positive {
-    color: #10b981;
-}
-
-.metric-value.neutral {
-    color: #f59e0b;
-}
-
-.metric-detail {
-    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-    color: #6b7280;
-}
-
-/* Chart Styles */
-.chart-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
-    gap: clamp(1rem, 3vw, 2rem);
-    margin-bottom: 2rem;
-}
-
-.chart-section {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: clamp(1rem, 3vw, 2rem);
-    min-height: 300px;
-}
-
-.chart-title {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    margin-bottom: 1.5rem;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.chart-subtitle {
-    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-    color: #9ca3af;
-    font-weight: normal;
-}
-
-/* Cost Analysis Specific */
-.cost-breakdown-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-    gap: clamp(1rem, 2vw, 1.5rem);
-    margin-bottom: 2rem;
-}
-
-.cost-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: clamp(1.5rem, 3vw, 2rem);
-    transition: all 0.3s ease;
-}
-
-.cost-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.cost-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    gap: 1rem;
-}
-
-.cost-title {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    font-weight: 600;
-    color: #e5e7eb;
-}
-
-.cost-icon {
-    width: clamp(35px, 7vw, 40px);
-    height: clamp(35px, 7vw, 40px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-    flex-shrink: 0;
-}
-
-.cost-value {
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.cost-detail {
-    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
-    color: #9ca3af;
-}
-
-.cost-percentage {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: rgba(239, 68, 68, 0.2);
-    border-radius: 9999px;
-    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
-    color: #fbbf24;
-    margin-top: 0.5rem;
-}
-
-/* Monthly Breakdown */
-.monthly-breakdown {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: clamp(1rem, 3vw, 2rem);
-    margin-bottom: 2rem;
-}
-
-.month-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(150px, 45%), 1fr));
-    gap: clamp(0.75rem, 2vw, 1rem);
-    margin-top: 1.5rem;
-}
-
-.month-card {
-    background: rgba(255, 255, 255, 0.03);
-    padding: clamp(0.75rem, 2vw, 1rem);
-    border-radius: 8px;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-}
-
-.month-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-}
-
-.month-name {
-    font-weight: bold;
-    color: #e5e7eb;
-    margin-bottom: 0.5rem;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-}
-
-.month-income {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    font-weight: bold;
-    margin-bottom: 0.3rem;
-}
-
-.month-income.profit {
-    color: #10b981;
-}
-
-.month-income.loss {
-    color: #ef4444;
-}
-
-.month-detail {
-    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
-    color: #9ca3af;
-    line-height: 1.4;
-}
-
-/* Insights Section */
-.insights-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
-    gap: clamp(1rem, 2vw, 1.5rem);
-    margin-bottom: 2rem;
-}
-
-.insight-card {
-    padding: clamp(1rem, 2vw, 1.5rem);
-    border-radius: 12px;
-    border: 1px solid;
-    transition: all 0.3s ease;
-}
-
-.insight-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.insight-card.success {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: rgba(16, 185, 129, 0.3);
-}
-
-.insight-card.warning {
-    background: rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.3);
-}
-
-.insight-card.danger {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
-}
-
-.insight-card.info {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.3);
-}
-
-.insight-header {
-    display: flex;
-    align-items: start;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.insight-icon {
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-    margin-top: 0.2rem;
-    flex-shrink: 0;
-}
-
-.insight-title {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    font-weight: 600;
-    color: #e5e7eb;
-    margin-bottom: 0.5rem;
-}
-
-.insight-description {
-    color: #9ca3af;
-    line-height: 1.6;
-    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-}
-
-.insight-action {
-    margin-top: 1rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-}
-
-.recommendations-section {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
-    border: 2px solid rgba(59, 130, 246, 0.3);
-    border-radius: 12px;
-    padding: clamp(1.5rem, 3vw, 2rem);
-}
-
-.recommendations-section h3 {
-    color: #3b82f6;
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-    margin-bottom: 1.5rem;
-}
-
-.recommendation-list {
-    display: grid;
-    gap: 1rem;
-}
-
-.recommendation-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: clamp(1rem, 2vw, 1.5rem);
-    border-radius: 8px;
-    border-left: 4px solid;
-    transition: all 0.3s ease;
-}
-
-.recommendation-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateX(10px);
-}
-
-.recommendation-item.priority-high {
-    border-left-color: #ef4444;
-}
-
-.recommendation-item.priority-medium {
-    border-left-color: #f59e0b;
-}
-
-.recommendation-item.priority-low {
-    border-left-color: #10b981;
-}
-
-.recommendation-title {
-    font-weight: 600;
-    color: #e5e7eb;
-    margin-bottom: 0.5rem;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-}
-
-.recommendation-detail {
-    color: #9ca3af;
-    margin-bottom: 0.5rem;
-    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-    line-height: 1.5;
-}
-
-.recommendation-impact {
-    color: #10b981;
-    font-weight: 600;
-    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-}
-
-/* Canvas responsiveness */
-canvas {
-    max-height: 350px;
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100%;
-}
-
-/* Prevent horizontal overflow */
-.critical-stats,
-.metrics-grid,
-.chart-grid,
-.chart-section,
-.monthly-breakdown,
-.month-grid {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-/* Touch-friendly mobile interactions */
-@media (hover: none) {
-    .metric-card:active {
-        transform: scale(0.98);
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tote&Carry - P&L Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo-container">
+                    <div class="logo">T&C</div>
+                    <div class="brand-info">
+                        <h1>TOTE&CARRY®</h1>
+                        <p>Luxury Luggage & Travel Essentials</p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-title">P&L Performance Dashboard</div>
+                <div class="header-subtitle">January - July 2025 | Complete Financial Analysis</div>
+            </div>
+        </div>
+    </div>
     
-    .stat-item:active {
-        transform: scale(0.98);
-    }
+    <div class="container">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-button" onclick="switchTab('costs')">Cost Analysis</button>
+            <button class="tab-button" onclick="switchTab('insights')">Key Insights</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+            <!-- Critical Statistics -->
+            <div class="critical-stats">
+                <h2>⚠️ 7-Month Performance Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">-$52,144</div>
+                        <div class="stat-label">Total Net Loss</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">117 Days</div>
+                        <div class="stat-label">Operating at Loss (55.5%)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">-$247/day</div>
+                        <div class="stat-label">Average Daily Loss</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">44.5%</div>
+                        <div class="stat-label">Success Rate (94/211 days)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Performance Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Total Gross Sales</div>
+                    <div class="metric-value positive">$5.82M</div>
+                    <div class="metric-detail">$27,568 daily average</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Total Net Sales</div>
+                    <div class="metric-value neutral">$4.59M</div>
+                    <div class="metric-detail">After returns & discounts</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Total Orders</div>
+                    <div class="metric-value neutral">40,512</div>
+                    <div class="metric-detail">192 daily average</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Average Order Value</div>
+                    <div class="metric-value neutral">$113</div>
+                    <div class="metric-detail">Net sales per order</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Discount Rate</div>
+                    <div class="metric-value negative">17.3%</div>
+                    <div class="metric-detail">Of gross sales</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Return Rate</div>
+                    <div class="metric-value negative">3.9%</div>
+                    <div class="metric-detail">Of gross sales</div>
+                </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="chart-grid">
+                <div class="chart-section">
+                    <h2 class="chart-title">
+                        <span>Monthly Net Income Trend</span>
+                        <span class="chart-subtitle">Q1 Losses → Q2 Recovery → Q3 Decline</span>
+                    </h2>
+                    <div style="position: relative; width: 100%; max-width: 100%; overflow: hidden;">
+                        <canvas id="monthlyTrendChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <h2 class="chart-title">
+                        <span>Revenue Performance</span>
+                        <span class="chart-subtitle">Gross vs Net Sales</span>
+                    </h2>
+                    <div style="position: relative; width: 100%; max-width: 100%; overflow: hidden;">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Monthly Breakdown -->
+            <div class="monthly-breakdown">
+                <h2 class="chart-title">Monthly Performance Breakdown</h2>
+                <div class="month-grid">
+                    <div class="month-card">
+                        <div class="month-name">January 2025</div>
+                        <div class="month-income loss">-$78,775</div>
+                        <div class="month-detail">7/31 profitable (22.6%)</div>
+                        <div class="month-detail">Avg: 175 orders/day</div>
+                    </div>
+                    
+                    <div class="month-card">
+                        <div class="month-name">February 2025</div>
+                        <div class="month-income loss">-$42,274</div>
+                        <div class="month-detail">8/28 profitable (28.6%)</div>
+                        <div class="month-detail">Avg: 165 orders/day</div>
+                    </div>
+                    
+                    <div class="month-card">
+                        <div class="month-name">March 2025</div>
+                        <div class="month-income loss">-$50,979</div>
+                        <div class="month-detail">11/31 profitable (35.5%)</div>
+                        <div class="month-detail">Avg: 156 orders/day</div>
+                    </div>
+                    
+                    <div class="month-card">
+                        <div class="month-name">April 2025</div>
+                        <div class="month-income profit">+$20,671</div>
+                        <div class="month-detail">17/30 profitable (56.7%)</div>
+                        <div class="month-detail">Avg: 310 orders/day</div>
+                    </div>
+                    
+                    <div class="month-card">
+                        <div class="month-name">May 2025</div>
+                        <div class="month-income profit">+$42,912</div>
+                        <div class="month-detail">21/31 profitable (67.7%)</div>
+                        <div class="month-detail">Avg: 174 orders/day</div>
+                    </div>
+                    
+                    <div class="month-card">
+                        <div class="month-name">June 2025</div>
+                        <div class="month-income profit">+$74,326</div>
+                        <div class="month-detail">20/30 profitable (66.7%)</div>
+                        <div class="month-detail">Avg: 176 orders/day</div>
+                    </div>
+                    
+                    <div class="month-card">
+                        <div class="month-name">July 2025</div>
+                        <div class="month-income loss">-$18,025</div>
+                        <div class="month-detail">10/30 profitable (33.3%)</div>
+                        <div class="month-detail">Avg: 189 orders/day</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cost Analysis Tab -->
+        <div id="costs-tab" class="tab-content">
+            <!-- Primary Cost Centers -->
+            <h2 style="color: #e5e7eb; margin-bottom: 1.5rem;">Primary Cost Centers</h2>
+            <div class="cost-breakdown-grid">
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Cost of Goods Sold</h3>
+                        <div class="cost-icon" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">📦</div>
+                    </div>
+                    <div class="cost-value" style="color: #ef4444;">$1.89M</div>
+                    <div class="cost-detail">$46.67 per order average</div>
+                    <div class="cost-percentage">41.2% of net sales</div>
+                </div>
+                
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Marketing Expenses</h3>
+                        <div class="cost-icon" style="background: rgba(59, 130, 246, 0.2); color: #3b82f6;">📢</div>
+                    </div>
+                    <div class="cost-value" style="color: #3b82f6;">$1.33M</div>
+                    <div class="cost-detail">$32.82 per order average</div>
+                    <div class="cost-percentage">29% of net sales</div>
+                </div>
+                
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Operational Expenses</h3>
+                        <div class="cost-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">⚙️</div>
+                    </div>
+                    <div class="cost-value" style="color: #10b981;">$823K</div>
+                    <div class="cost-detail">$20.31 per order average</div>
+                    <div class="cost-percentage">17.9% of net sales</div>
+                </div>
+            </div>
+            
+            <!-- Revenue Impact Centers -->
+            <h2 style="color: #e5e7eb; margin: 2rem 0 1.5rem;">Revenue Impact Centers</h2>
+            <div class="cost-breakdown-grid">
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Discount Codes</h3>
+                        <div class="cost-icon" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">💸</div>
+                    </div>
+                    <div class="cost-value" style="color: #f59e0b;">$1.01M</div>
+                    <div class="cost-detail">$24.92 per order average</div>
+                    <div class="cost-percentage">17.3% of gross sales</div>
+                </div>
+                
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Returns</h3>
+                        <div class="cost-icon" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">↩️</div>
+                    </div>
+                    <div class="cost-value" style="color: #ef4444;">$227K</div>
+                    <div class="cost-detail">$5.60 per order average</div>
+                    <div class="cost-percentage">3.9% of gross sales</div>
+                </div>
+                
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Shipping</h3>
+                        <div class="cost-icon" style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6;">🚚</div>
+                    </div>
+                    <div class="cost-value" style="color: #8b5cf6;">$1.09M</div>
+                    <div class="cost-detail">$27.00 per order fixed</div>
+                    <div class="cost-percentage">23.7% of net sales</div>
+                </div>
+                
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Transaction Fees</h3>
+                        <div class="cost-icon" style="background: rgba(107, 114, 128, 0.2); color: #9ca3af;">💳</div>
+                    </div>
+                    <div class="cost-value" style="color: #9ca3af;">$138K</div>
+                    <div class="cost-detail">$3.40 per order average</div>
+                    <div class="cost-percentage">3% of net sales</div>
+                </div>
+                
+                <div class="cost-card">
+                    <div class="cost-header">
+                        <h3 class="cost-title">Shopify Loan</h3>
+                        <div class="cost-icon" style="background: rgba(220, 38, 38, 0.2); color: #dc2626;">🏦</div>
+                    </div>
+                    <div class="cost-value" style="color: #dc2626;">$505K</div>
+                    <div class="cost-detail">$12.46 per order average</div>
+                    <div class="cost-percentage">11% of net sales</div>
+                </div>
+            </div>
+            
+            <!-- Cost Trends Chart -->
+            <div class="chart-section" style="margin-top: 2rem;">
+                <h2 class="chart-title">
+                    Monthly Cost Breakdown
+                    <span class="chart-subtitle">Major cost categories over time</span>
+                </h2>
+                <canvas id="costTrendsChart"></canvas>
+            </div>
+            
+            <!-- Cost per Order Analysis -->
+            <div class="chart-section" style="margin-top: 2rem;">
+                <h2 class="chart-title">
+                    Cost per Order Breakdown
+                    <span class="chart-subtitle">Where each order dollar goes</span>
+                </h2>
+                <canvas id="costPerOrderChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Insights Tab -->
+        <div id="insights-tab" class="tab-content">
+            <!-- Key Insights Grid -->
+            <h2 style="color: #e5e7eb; margin-bottom: 1.5rem;">Critical Business Insights</h2>
+            <div class="insights-grid">
+                <div class="insight-card danger">
+                    <div class="insight-header">
+                        <span class="insight-icon">🚨</span>
+                        <div>
+                            <h3 class="insight-title">Unsustainable Cost Structure</h3>
+                            <p class="insight-description">Marketing (29%) + Shopify Loan (11%) = 40% of revenue before other costs</p>
+                            <div class="insight-action" style="color: #ef4444;">
+                                → Immediate action required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-card warning">
+                    <div class="insight-header">
+                        <span class="insight-icon">⚠️</span>
+                        <div>
+                            <h3 class="insight-title">Q2 Success Pattern</h3>
+                            <p class="insight-description">April's 310 daily orders drove profitability - 2x normal volume</p>
+                            <div class="insight-action" style="color: #f59e0b;">
+                                → Study and replicate April strategy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-card success">
+                    <div class="insight-header">
+                        <span class="insight-icon">✅</span>
+                        <div>
+                            <h3 class="insight-title">Shipping Revenue Positive</h3>
+                            <p class="insight-description">$27 shipping charge covers costs and contributes to margin</p>
+                            <div class="insight-action" style="color: #10b981;">
+                                → Maintain current shipping strategy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-card info">
+                    <div class="insight-header">
+                        <span class="insight-icon">📊</span>
+                        <div>
+                            <h3 class="insight-title">Break-Even Analysis</h3>
+                            <p class="insight-description">Need $2,267 daily improvement or 23 more profitable days</p>
+                            <div class="insight-action" style="color: #3b82f6;">
+                                → Focus on consistency over peaks
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-card warning">
+                    <div class="insight-header">
+                        <span class="insight-icon">📉</span>
+                        <div>
+                            <h3 class="insight-title">July Regression</h3>
+                            <p class="insight-description">Despite good order volume, returned to losses - cost control issue</p>
+                            <div class="insight-action" style="color: #f59e0b;">
+                                → Investigate July cost increases
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="insight-card danger">
+                    <div class="insight-header">
+                        <span class="insight-icon">💸</span>
+                        <div>
+                            <h3 class="insight-title">High Discount Impact</h3>
+                            <p class="insight-description">17.3% discount rate ($25/order) eroding margins significantly</p>
+                            <div class="insight-action" style="color: #ef4444;">
+                                → Review discount strategy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendations Section -->
+            <div class="recommendations-section">
+                <h3>🎯 Priority Action Plan</h3>
+                <div class="recommendation-list">
+                    <div class="recommendation-item priority-high">
+                        <h4 class="recommendation-title">1. Cut Marketing Spend to 15%</h4>
+                        <p class="recommendation-detail">Reduce from 29% to 15% of net sales immediately. Pause underperforming channels.</p>
+                        <p class="recommendation-impact">💰 Impact: Save $3,000-4,000 per day</p>
+                    </div>
+                    
+                    <div class="recommendation-item priority-high">
+                        <h4 class="recommendation-title">2. Renegotiate Shopify Loan</h4>
+                        <p class="recommendation-detail">11% of revenue is unsustainable. Target 5% or fixed monthly amount.</p>
+                        <p class="recommendation-impact">💰 Impact: Save $1,300+ per day</p>
+                    </div>
+                    
+                    <div class="recommendation-item priority-medium">
+                        <h4 class="recommendation-title">3. Optimize Discount Strategy</h4>
+                        <p class="recommendation-detail">Reduce discount rate from 17.3% to 10%. Implement minimum order values for discounts.</p>
+                        <p class="recommendation-impact">💰 Impact: Add $15 per order to margin</p>
+                    </div>
+                    
+                    <div class="recommendation-item priority-medium">
+                        <h4 class="recommendation-title">4. Replicate April Success</h4>
+                        <p class="recommendation-detail">April achieved 310 daily orders and profitability. Study and implement that strategy.</p>
+                        <p class="recommendation-impact">💰 Impact: Move from -$247 to +$689 daily average</p>
+                    </div>
+                    
+                    <div class="recommendation-item priority-low">
+                        <h4 class="recommendation-title">5. Maintain Shipping Excellence</h4>
+                        <p class="recommendation-detail">Keep $27 shipping charge - it's contributing positively to margins.</p>
+                        <p class="recommendation-impact">💰 Impact: Preserve existing profit center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    .tab-button:active {
-        background: rgba(255, 255, 255, 0.1);
-    }
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-    body {
-        overflow-x: hidden;
-        width: 100%;
-        position: relative;
-    }
-    
-    .container {
-        overflow-x: hidden;
-        max-width: 100%;
-    }
-    
-    .stats-grid,
-    .metrics-grid,
-    .chart-grid,
-    .month-grid {
-        width: 100%;
-        max-width: 100%;
-    }
-    
-    .header-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .header-left {
-        flex-direction: column;
-    }
-    
-    .header-right {
-        text-align: center;
-    }
-    
-    .logo {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .chart-section {
-        padding: 1rem;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-    }
-    
-    canvas {
-        max-height: 250px;
-        max-width: 100%;
-    }
-    
-    .tab-button {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-    }
-    
-    .month-card {
-        min-height: 120px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    .metric-card {
-        max-width: 100%;
-        overflow: hidden;
-    }
-    
-    .monthly-breakdown {
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-    
-    .recommendation-item:hover {
-        transform: translateX(5px);
-    }
-}
-
-/* Tablet optimizations */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .cost-breakdown-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .month-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-/* Large desktop optimizations */
-@media (min-width: 1600px) {
-    .metrics-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .insights-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Print styles */
-@media print {
-    body {
-        background: white;
-        color: black;
-    }
-    
-    .header {
-        background: none;
-        border-bottom: 2px solid black;
-    }
-    
-    .tab-navigation {
-        display: none;
-    }
-    
-    .tab-content {
-        display: block !important;
-        page-break-inside: avoid;
-    }
-    
-    .metric-card, .cost-card, .insight-card {
-        border: 1px solid black;
-        background: none;
-    }
-}
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
